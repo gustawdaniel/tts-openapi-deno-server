@@ -1,5 +1,5 @@
 import { serveDir } from "@std/http";
-import {speakHttpHandler} from "./src/speakHttpHandler.ts";
+import { speakHttpHandler } from "./src/speakHttpHandler.ts";
 
 const userPagePattern = new URLPattern({ pathname: "/users/:id" });
 const staticPathPattern = new URLPattern({ pathname: "/static/*" });
@@ -25,12 +25,18 @@ export default {
     }
 
     const speakMatch = speakPattern.exec(url);
-    if (speakMatch && speakMatch.pathname.groups.lang && speakMatch.pathname.groups.sentence) {
+    if (
+      speakMatch && speakMatch.pathname.groups.lang &&
+      speakMatch.pathname.groups.sentence
+    ) {
       if (req.method === "OPTIONS") {
         return new Response(null, { status: 204, headers: corsHeaders });
       }
 
-      const response = await speakHttpHandler(speakMatch.pathname.groups.lang, speakMatch.pathname.groups.sentence);
+      const response = await speakHttpHandler(
+        speakMatch.pathname.groups.lang,
+        speakMatch.pathname.groups.sentence,
+      );
       // Add CORS headers to the existing response
       corsHeaders.forEach((value, key) => response.headers.set(key, value));
       return response;
