@@ -12,12 +12,16 @@ export class S3Adapter extends StorageAdapter {
 
         const env = config();
 
-        Deno.env.set("S3_ACCESS_KEY_ID", env.S3_ACCESS_KEY_ID)
-        Deno.env.set("S3_SECRET_ACCESS_KEY", env.S3_SECRET_ACCESS_KEY)
-        Deno.env.set("S3_REGION", env.S3_REGION)
-        Deno.env.set("S3_BUCKET_NAME", env.S3_BUCKET_NAME)
-        Deno.env.set("S3_DIR", env.S3_DIR)
-        Deno.env.set("S3_ENDPOINT_URL", env.S3_ENDPOINT_URL.startsWith('https://') ? env.S3_ENDPOINT_URL : `https://${env.S3_ENDPOINT_URL}`)
+        if(env.S3_ACCESS_KEY_ID && !Deno.env.get("S3_ACCESS_KEY_ID")) Deno.env.set("S3_ACCESS_KEY_ID", env.S3_ACCESS_KEY_ID)
+        if(env.S3_SECRET_ACCESS_KEY && !Deno.env.get("S3_SECRET_ACCESS_KEY")) Deno.env.set("S3_SECRET_ACCESS_KEY", env.S3_SECRET_ACCESS_KEY)
+        if(env.S3_REGION && !Deno.env.get("S3_REGION")) Deno.env.set("S3_REGION", env.S3_REGION)
+        if(env.S3_BUCKET_NAME && !Deno.env.get("S3_BUCKET_NAME")) Deno.env.set("S3_BUCKET_NAME", env.S3_BUCKET_NAME)
+        if(env.S3_DIR && !Deno.env.get("S3_DIR")) Deno.env.set("S3_DIR", env.S3_DIR)
+        if(env.S3_ENDPOINT_URL && !Deno.env.get("S3_ENDPOINT_URL")) Deno.env.set("S3_ENDPOINT_URL", env.S3_ENDPOINT_URL.startsWith('https://') ? env.S3_ENDPOINT_URL : `https://${env.S3_ENDPOINT_URL}`)
+
+        if(!Deno.env.get("S3_ENDPOINT_URL")!.startsWith('https://')) {
+            Deno.env.set("S3_ENDPOINT_URL", `https://${Deno.env.get("S3_ENDPOINT_URL")}`)
+        }
 
         console.log('r1', env.S3_REGION);
         console.log('r2', Deno.env.get("S3_REGION")!);
