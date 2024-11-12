@@ -14,3 +14,11 @@ deno test -R
 Deployed
 
 https://dash.deno.com/projects/danielgusta-tts-openapi-17
+
+In deployed there is not `--allow-write` so we have to relay on s3
+
+```
+https://preciselab.fra1.digitaloceanspaces.com/sowa/voice/de/-6.wav
+```
+
+speakS3gTTS

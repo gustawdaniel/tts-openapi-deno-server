@@ -1,9 +1,8 @@
 {
   "tasks": {
-    "dev": "deno serve --allow-write --allow-net --watch -R main.ts"
+    "dev": "deno serve --allow-env --allow-write --allow-net --watch -R main.ts"
   },
   "imports": {
-    "@ilawy/gtts": "jsr:@ilawy/gtts@^1.0.2",
     "@std/assert": "jsr:@std/assert@1",
     "@std/http": "jsr:@std/http@1"
   }

@@ -1,5 +1,5 @@
 import { serveDir } from "@std/http";
-import {gttsSingleResponse} from "./src/gttsSingleResponse.ts";
+import {speakHttpHandler} from "./src/speakHttpHandler.ts";
 
 const userPagePattern = new URLPattern({ pathname: "/users/:id" });
 const staticPathPattern = new URLPattern({ pathname: "/static/*" });
@@ -20,7 +20,7 @@ export default {
 
     const speakMatch = speakPattern.exec(url);
     if (speakMatch && speakMatch.pathname.groups.lang && speakMatch.pathname.groups.sentence) {
-      return await gttsSingleResponse(speakMatch.pathname.groups.lang, speakMatch.pathname.groups.sentence);
+      return await speakHttpHandler(speakMatch.pathname.groups.lang, speakMatch.pathname.groups.sentence);
     }
 
     if (staticPathPattern.test(url)) {
