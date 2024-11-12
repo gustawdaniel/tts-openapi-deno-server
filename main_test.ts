@@ -4,7 +4,7 @@ import server from "./main.ts";
 Deno.test(async function serverFetch() {
   const req = new Request("https://deno.land");
   const res = await server.fetch(req);
-  assertEquals(await res.text(), "Home page");
+  assertEquals(await res.text(), "Check /static/voice/pl/0.wav");
 });
 
 Deno.test(async function serverFetchNotFound() {

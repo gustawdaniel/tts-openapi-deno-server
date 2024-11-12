@@ -6,7 +6,9 @@ async function main() {
     const cache = new S3Adapter();
     const speaker = new GttsAdapter();
 
-    const res = await speak("pl", "11", cache, speaker);
+    await cache.delete("nl/-13.wav");
+
+    const res = await speak("nl", "-13", cache, speaker);
     console.log('res', res);
 }
 

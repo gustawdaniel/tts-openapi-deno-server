@@ -1,14 +1,17 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@ilawy/gtts@1": "1.0.2",
     "jsr:@std/assert@1": "1.0.7",
     "jsr:@std/assert@^1.0.2": "1.0.7",
+    "jsr:@std/bytes@^1.0.2": "1.0.3",
     "jsr:@std/cli@^1.0.3": "1.0.6",
     "jsr:@std/cli@^1.0.6": "1.0.6",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
     "jsr:@std/fmt@^1.0.3": "1.0.3",
     "jsr:@std/http@1": "1.0.9",
     "jsr:@std/internal@^1.0.5": "1.0.5",
+    "jsr:@std/io@~0.224.4": "0.224.9",
     "jsr:@std/media-types@^1.0.3": "1.0.3",
     "jsr:@std/net@^1.0.4": "1.0.4",
     "jsr:@std/path@^1.0.7": "1.0.8",
@@ -16,11 +19,22 @@
     "npm:openai@*": "4.70.2"
   },
   "jsr": {
+    "@ilawy/gtts@1.0.2": {
+      "integrity": "f7c1f02ecd6018263df02c6db6fb7c615a925427153784369a9a75aebc7278b7",
+      "dependencies": [
+        "jsr:@std/assert@^1.0.2",
+        "jsr:@std/cli@^1.0.3",
+        "jsr:@std/io"
+      ]
+    },
     "@std/assert@1.0.7": {
       "integrity": "64ce9fac879e0b9f3042a89b3c3f8ccfc9c984391af19e2087513a79d73e28c3",
       "dependencies": [
         "jsr:@std/internal"
       ]
+    },
+    "@std/bytes@1.0.3": {
+      "integrity": "e5d5b9e685966314e4edb4be60dfc4bd7624a075bfd4ec8109252b4320f76452"
     },
     "@std/cli@1.0.6": {
       "integrity": "d22d8b38c66c666d7ad1f2a66c5b122da1704f985d3c47f01129f05abb6c5d3d"
@@ -45,6 +59,12 @@
     },
     "@std/internal@1.0.5": {
       "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
+    },
+    "@std/io@0.224.9": {
+      "integrity": "4414664b6926f665102e73c969cfda06d2c4c59bd5d0c603fd4f1b1c840d6ee3",
+      "dependencies": [
+        "jsr:@std/bytes"
+      ]
     },
     "@std/media-types@1.0.3": {
       "integrity": "b12d30a7852f7578f4d210622df713bbfd1cbdd9b4ec2eaf5c1845ab70bab159"
@@ -215,10 +235,12 @@
     "https://deno.land/x/s3@0.5.0/src/client.ts": "1ea62d85d17ad2d3bb643af008712299c8ccc4ba030a26b0d6c3cc804e1cb48b",
     "https://deno.land/x/s3@0.5.0/src/error.ts": "a7857ca64eedbaf5c4daad5e83fdef5c4acd61534bffdab784b4e17e008e6aae",
     "https://deno.land/x/s3@0.5.0/src/request.ts": "c469c447d65e0508a94c8fa6d68ab4c54b23efbdacef58dd8651975721ecf8a6",
+    "https://deno.land/x/s3@0.5.0/src/types.ts": "817968920f69e2768dcaeec59f301ce791715544bac2561d59e3e9ca81ec0bba",
     "https://raw.githubusercontent.com/nekobato/deno-xml-parser/0bc4c2bd2f5fad36d274279978ca57eec57c680c/index.ts": "05d093028c005706e37b46bfe2bb7e2488f42fdc74d2196ac818902336927c01"
   },
   "workspace": {
     "dependencies": [
+      "jsr:@ilawy/gtts@1",
       "jsr:@std/assert@1",
       "jsr:@std/http@1"
     ]

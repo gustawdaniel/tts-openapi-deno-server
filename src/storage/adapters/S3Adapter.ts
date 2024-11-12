@@ -45,7 +45,6 @@ export class S3Adapter extends StorageAdapter {
     async get(appKey: string): Promise<Response | undefined> {
         const key = this.s3Key(appKey);
         const exists = await this.bucket.getObject(key)
-        console.log(exists);
 
         if (exists) {
             return new Response(null, { status: 302, headers: { "Location": `${this.base}/${key}` } });
