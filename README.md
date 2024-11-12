@@ -11,3 +11,6 @@ deno task dev
 # Run the tests
 deno test -R
 
+Deployed
+
+https://dash.deno.com/projects/danielgusta-tts-openapi-17
