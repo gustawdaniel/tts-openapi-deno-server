@@ -10,7 +10,19 @@ export async function speak(lang: string, sentence: string, cache: StorageAdapte
         return exists;
     }
 
-    const res = await speaker.speak(lang, sentence);
+    try {
+        const res = await speaker.speak(lang, sentence);
+        return await cache.set(key, res);
+    } catch(e) {
+        console.error(e);
 
-    return await cache.set(key, res);
+        if(e instanceof Error) {
+            const status = e.message.startsWith("[") ? parseInt(e.message.substring(1, e.message.indexOf("]"))) : 500;
+            return new Response(e.message, {status});
+        } else {
+            return new Response(null, {status: 500});
+        }
+    }
+
+
 }
