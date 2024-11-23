@@ -43,9 +43,6 @@ export class S3Adapter extends StorageAdapter {
       );
     }
 
-    console.log("r1", env.S3_REGION);
-    console.log("r2", Deno.env.get("S3_REGION")!);
-
     const s3 = new S3({
       accessKeyID: Deno.env.get("S3_ACCESS_KEY_ID")!,
       secretKey: Deno.env.get("S3_SECRET_ACCESS_KEY")!,

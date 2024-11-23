@@ -1,8 +1,6 @@
 import { serveDir } from "@std/http";
 import { speakHttpHandler } from "./src/speakHttpHandler.ts";
 
-const userPagePattern = new URLPattern({ pathname: "/users/:id" });
-const staticPathPattern = new URLPattern({ pathname: "/static/*" });
 const speakPattern = new URLPattern({ pathname: "/speak/:lang/:sentence" });
 
 const corsHeaders = new Headers({
@@ -11,41 +9,76 @@ const corsHeaders = new Headers({
   "Access-Control-Allow-Headers": "*",
 });
 
-export default {
-  async fetch(req) {
-    const url = new URL(req.url);
 
-    if (url.pathname === "/") {
-      return new Response("Check /static/voice/pl/0.wav");
-    }
+import { serve } from "https://deno.land/std@0.188.0/http/mod.ts";
 
-    const userPageMatch = userPagePattern.exec(url);
-    if (userPageMatch) {
-      return new Response(userPageMatch.pathname.groups.id);
-    }
+serve(async (req: Request):Promise<Response> => {
+  const url = new URL(req.url);
 
+  try {
     const speakMatch = speakPattern.exec(url);
     if (
-      speakMatch && speakMatch.pathname.groups.lang &&
-      speakMatch.pathname.groups.sentence
+        speakMatch && speakMatch.pathname.groups.lang &&
+        speakMatch.pathname.groups.sentence
     ) {
       if (req.method === "OPTIONS") {
         return new Response(null, { status: 204, headers: corsHeaders });
       }
 
       const response = await speakHttpHandler(
-        speakMatch.pathname.groups.lang,
-        speakMatch.pathname.groups.sentence,
+          speakMatch.pathname.groups.lang,
+          speakMatch.pathname.groups.sentence,
       );
       // Add CORS headers to the existing response
       corsHeaders.forEach((value, key) => response.headers.set(key, value));
       return response;
     }
 
-    if (staticPathPattern.test(url)) {
-      return serveDir(req);
-    }
+    const filePath = `${Deno.cwd()}/static${url.pathname}`;
+    const file = Deno.readFileSync(filePath);
+    const contentType = getContentType(url.pathname);
+    return new Response(file, {
+      headers: { "content-type": contentType || "application/octet-stream" },
+    });
+  } catch {
+    const file = Deno.readFileSync(`${Deno.cwd()}/static/index.html`);
+    return new Response(file, {headers: { "content-type": "text/html" } });
+  }
+});
 
-    return new Response("Not found", { status: 404 });
-  },
-} satisfies Deno.ServeDefaultExport;
+function getContentType(pathname: string): string | undefined {
+  const ext = pathname.split(".").pop();
+  switch (ext) {
+    case "html": return "text/html";
+    case "js": return "application/javascript";
+    case "css": return "text/css";
+    case "png": return "image/png";
+    case "jpg": return "image/jpeg";
+    case "svg": return "image/svg+xml";
+    case "json": return "application/json";
+    default: return undefined;
+  }
+}
+
+// export default {
+//   async fetch(req) {
+//     const url = new URL(req.url);
+//
+//     // if (url.pathname === "/") {
+//     //   return new Response("Check /static/voice/pl/0.wav");
+//     // }
+//
+//     const userPageMatch = userPagePattern.exec(url);
+//     if (userPageMatch) {
+//       return new Response(userPageMatch.pathname.groups.id);
+//     }
+//
+//
+//
+//     if (staticPathPattern.test(url)) {
+//       return serveDir(req);
+//     }
+//
+//     return new Response("Not found", { status: 404 });
+//   },
+// } satisfies Deno.ServeDefaultExport;

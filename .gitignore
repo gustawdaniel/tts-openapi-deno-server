@@ -1,3 +1,6 @@
 .idea
 .env
 SECRET.md
+static/_app
+static/favicon.png
+static/index.html

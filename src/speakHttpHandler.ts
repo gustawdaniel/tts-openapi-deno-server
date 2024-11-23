@@ -2,9 +2,11 @@ import { validateInput } from "./validators/validateInput.ts";
 import { GttsAdapter } from "./voice/adapters/gttsAdapter.ts";
 import { S3Adapter } from "./storage/adapters/S3Adapter.ts";
 import { speak } from "./speak.ts";
+import {InfluxLogger} from "./logger/adapters/InfluxLogger.ts";
 
 const cache = new S3Adapter();
-const speaker = new GttsAdapter();
+const speakers = [new GttsAdapter()];
+const logger = new InfluxLogger();
 
 export async function speakHttpHandler(
   lang: string,
@@ -16,5 +18,5 @@ export async function speakHttpHandler(
     return new Response(validationError, { status: 400 });
   }
 
-  return await speak(lang, text, cache, speaker);
+  return await speak(lang, text, cache, speakers, logger);
 }
