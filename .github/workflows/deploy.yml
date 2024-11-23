@@ -43,5 +43,4 @@ jobs:
         uses: denoland/deployctl@v1
         with:
           project: "danielgustaw-tts"
-          entrypoint: "main.ts"
-          root: "."
+          entrypoint: "./main.ts"
