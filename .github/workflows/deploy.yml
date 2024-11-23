@@ -42,8 +42,11 @@ jobs:
       - name: List Files for Debugging
         run: ls -R
 
+      - name: pwd
+        run: pwd
+
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "danielgustaw-tts"
-          entrypoint: "main.ts"
+          entrypoint: "src/main.ts"
