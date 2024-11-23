@@ -9,41 +9,11 @@ const corsHeaders = new Headers({
 });
 
 
-import { serve } from "https://deno.land/std@0.188.0/http/mod.ts";
+// import { serve } from "https://deno.land/std@0.188.0/http/mod.ts";
 
-serve(async (req: Request):Promise<Response> => {
-  const url = new URL(req.url);
-
-  try {
-    const speakMatch = speakPattern.exec(url);
-    if (
-        speakMatch && speakMatch.pathname.groups.lang &&
-        speakMatch.pathname.groups.sentence
-    ) {
-      if (req.method === "OPTIONS") {
-        return new Response(null, { status: 204, headers: corsHeaders });
-      }
-
-      const response = await speakHttpHandler(
-          speakMatch.pathname.groups.lang,
-          speakMatch.pathname.groups.sentence,
-      );
-      // Add CORS headers to the existing response
-      corsHeaders.forEach((value, key) => response.headers.set(key, value));
-      return response;
-    }
-
-    const filePath = `${Deno.cwd()}/../static${url.pathname}`;
-    const file = Deno.readFileSync(filePath);
-    const contentType = getContentType(url.pathname);
-    return new Response(file, {
-      headers: { "content-type": contentType || "application/octet-stream" },
-    });
-  } catch {
-    const file = Deno.readFileSync(`${Deno.cwd()}/../static/index.html`);
-    return new Response(file, {headers: { "content-type": "text/html" } });
-  }
-});
+// serve(async (req: Request):Promise<Response> => {
+//
+// });
 
 function getContentType(pathname: string): string | undefined {
   const ext = pathname.split(".").pop();
@@ -59,25 +29,38 @@ function getContentType(pathname: string): string | undefined {
   }
 }
 
-// export default {
-//   async fetch(req) {
-//     const url = new URL(req.url);
-//
-//     // if (url.pathname === "/") {
-//     //   return new Response("Check /static/voice/pl/0.wav");
-//     // }
-//
-//     const userPageMatch = userPagePattern.exec(url);
-//     if (userPageMatch) {
-//       return new Response(userPageMatch.pathname.groups.id);
-//     }
-//
-//
-//
-//     if (staticPathPattern.test(url)) {
-//       return serveDir(req);
-//     }
-//
-//     return new Response("Not found", { status: 404 });
-//   },
-// } satisfies Deno.ServeDefaultExport;
+export default {
+  async fetch(req) {
+    const url = new URL(req.url);
+
+    try {
+      const speakMatch = speakPattern.exec(url);
+      if (
+          speakMatch && speakMatch.pathname.groups.lang &&
+          speakMatch.pathname.groups.sentence
+      ) {
+        if (req.method === "OPTIONS") {
+          return new Response(null, { status: 204, headers: corsHeaders });
+        }
+
+        const response = await speakHttpHandler(
+            speakMatch.pathname.groups.lang,
+            speakMatch.pathname.groups.sentence,
+        );
+        // Add CORS headers to the existing response
+        corsHeaders.forEach((value, key) => response.headers.set(key, value));
+        return response;
+      }
+
+      const filePath = `${Deno.cwd()}/static${url.pathname}`;
+      const file = Deno.readFileSync(filePath);
+      const contentType = getContentType(url.pathname);
+      return new Response(file, {
+        headers: { "content-type": contentType || "application/octet-stream" },
+      });
+    } catch {
+      const file = Deno.readFileSync(`${Deno.cwd()}/static/index.html`);
+      return new Response(file, {headers: { "content-type": "text/html" } });
+    }
+  },
+} satisfies Deno.ServeDefaultExport;
