@@ -1,5 +1,4 @@
-import { serveDir } from "@std/http";
-import { speakHttpHandler } from "./src/speakHttpHandler.ts";
+import { speakHttpHandler } from "./speakHttpHandler.ts";
 
 const speakPattern = new URLPattern({ pathname: "/speak/:lang/:sentence" });
 
@@ -34,14 +33,14 @@ serve(async (req: Request):Promise<Response> => {
       return response;
     }
 
-    const filePath = `${Deno.cwd()}/static${url.pathname}`;
+    const filePath = `${Deno.cwd()}/../static${url.pathname}`;
     const file = Deno.readFileSync(filePath);
     const contentType = getContentType(url.pathname);
     return new Response(file, {
       headers: { "content-type": contentType || "application/octet-stream" },
     });
   } catch {
-    const file = Deno.readFileSync(`${Deno.cwd()}/static/index.html`);
+    const file = Deno.readFileSync(`${Deno.cwd()}/../static/index.html`);
     return new Response(file, {headers: { "content-type": "text/html" } });
   }
 });
