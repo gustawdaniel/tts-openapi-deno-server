@@ -39,8 +39,11 @@ jobs:
       - name: Build step
         run: "cd front && pnpm build && cp -r build/* ../static"
 
-      - name: Upload to Deno Deploy
-        uses: denoland/deployctl@v1
-        with:
-          project: "danielgustaw-tts"
-          entrypoint: "./main.ts"
+      - name: List Files for Debugging
+        run: ls -R
+
+#      - name: Upload to Deno Deploy
+#        uses: denoland/deployctl@v1
+#        with:
+#          project: "danielgustaw-tts"
+#          entrypoint: "./main.ts"
