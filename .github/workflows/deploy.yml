@@ -28,25 +28,17 @@ jobs:
         with:
           node-version: lts/*
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9.x
-
       - name: Install step
         run: "cd front && deno install --allow-scripts"
 
       - name: Build step
         run: "cd front && pnpm build && cp -r build/* ../static"
 
-      - name: List Files for Debugging
-        run: ls -R
-
-      - name: pwd
-        run: pwd
-
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
           project: "danielgustaw-tts"
-          entrypoint: "./src/main.ts"
+          entrypoint: "src/main.ts"
+          root: ""
+          
+          
