@@ -32,7 +32,7 @@ jobs:
         run: "cd front && deno install --allow-scripts"
 
       - name: Build step
-        run: "cd front && pnpm build && cp -r build/* ../static"
+        run: "cd front && npm run build && cp -r build/* ../static"
 
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
