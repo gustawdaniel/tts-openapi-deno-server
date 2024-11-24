@@ -7,11 +7,13 @@ export function validateInput(lang: string, text: string): string | undefined {
     }.`;
   }
 
-  if (text.length > 5) {
+  if (text.length > 7) {
     return `Text too long, max 5 characters.`;
   }
 
-  if (Number.isNaN(Number(text))) {
-    return `Text must be a number.`;
+  const allowedText = /^[0-9+\- ]*$/;
+
+  if (!allowedText.test(text)) {
+    return `Text must contain only numbers, +, - or spaces.`;
   }
 }

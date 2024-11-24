@@ -18,5 +18,10 @@ export async function speakHttpHandler(
     return new Response(validationError, { status: 400 });
   }
 
-  return await speak(lang, text, cache, speakers, logger);
+  try {
+    return await speak(lang, text, cache, speakers, logger);
+  } catch (e) {
+    console.error(e);
+    return new Response(null, { status: 500 });
+  }
 }

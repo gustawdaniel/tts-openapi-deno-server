@@ -2,6 +2,7 @@ import { VoiceAdapter } from "./voice/VoiceAdapter.ts";
 import { StorageAdapter } from "./storage/StorageAdapter.ts";
 import { AppError } from "./helpers/AppError.ts";
 import { Logger } from "./logger/Logger.ts";
+import { Key } from "./helpers/Key.ts";
 
 function getError(e: unknown): AppError {
   if (e instanceof Error) {
@@ -31,7 +32,7 @@ export async function speak(
   const problems: AppError[] = [];
 
   for (const speaker of speakers) {
-    const key = `${speaker.code}/${lang}/${sentence}.wav`;
+    const key = Key.compose(speaker.code, lang, sentence); ///`${speaker.code}/${lang}/${sentence}.wav`;
     const exists = await cache.get(key);
 
     if (exists) {
@@ -52,7 +53,7 @@ export async function speak(
   }
 
   logger.logError(
-    `all/${lang}/${sentence}.wav`,
+    Key.compose("all", lang, sentence),
     {
       message: JSON.stringify(problems),
       status: problems[0].status,

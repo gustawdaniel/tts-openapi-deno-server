@@ -36,6 +36,7 @@ export default {
 
     try {
       const speakMatch = speakPattern.exec(url);
+
       if (
         speakMatch && speakMatch.pathname.groups.lang &&
         speakMatch.pathname.groups.sentence
@@ -44,10 +45,13 @@ export default {
           return new Response(null, { status: 204, headers: corsHeaders });
         }
 
+        const text = decodeURI(speakMatch.pathname.groups.sentence);
+
         const response = await speakHttpHandler(
           speakMatch.pathname.groups.lang,
-          speakMatch.pathname.groups.sentence,
+          text,
         );
+
         // Add CORS headers to the existing response
         corsHeaders.forEach((value, key) => response.headers.set(key, value));
         return response;

@@ -3,12 +3,7 @@ import { AppError } from "../../helpers/AppError.ts";
 import { InfluxDBClient, Point } from "npm:@influxdata/influxdb3-client";
 import { config } from "https://deno.land/x/dotenv/mod.ts";
 import assert from "node:assert";
-function decomposeKey(
-  key: string,
-): { lang: string; text: string; voice: string } {
-  const [voice, lang, text] = key.split("/");
-  return { lang, voice, text: text.replace(/.wav$/, "") };
-}
+import { Key } from "../../helpers/Key.ts";
 
 export class InfluxLogger extends Logger {
   private client: InfluxDBClient;
@@ -32,9 +27,9 @@ export class InfluxLogger extends Logger {
       Deno.env.set("INFLUXDB_DATABASE", env.INFLUXDB_DATABASE);
     }
 
-    const token = Deno.env.get('INFLUXDB_TOKEN');
-    const host = Deno.env.get('INFLUXDB_HOST');
-    const database = Deno.env.get('INFLUXDB_DATABASE');
+    const token = Deno.env.get("INFLUXDB_TOKEN");
+    const host = Deno.env.get("INFLUXDB_HOST");
+    const database = Deno.env.get("INFLUXDB_DATABASE");
 
     assert.ok(token, "INFLUXDB_TOKEN is required");
     assert.ok(host, "INFLUXDB_HOST is required");
@@ -49,7 +44,7 @@ export class InfluxLogger extends Logger {
 
   async logSpeak(key: string, time: number) {
     console.log(`Logging speak to InfluxDB: ${key}`);
-    const { lang, text, voice } = decomposeKey(key);
+    const { lang, text, voice } = Key.decompose(key);
     await this.client.write(
       Point.measurement("action")
         .setTag("type", "speak")
@@ -64,7 +59,7 @@ export class InfluxLogger extends Logger {
 
   async logCacheHit(key: string, time: number) {
     console.log(`Logging cache hit to InfluxDB: ${key}`);
-    const { lang, text, voice } = decomposeKey(key);
+    const { lang, text, voice } = Key.decompose(key);
     await this.client.write(
       Point.measurement("action")
         .setTag("type", "cache_hit")
@@ -79,7 +74,7 @@ export class InfluxLogger extends Logger {
 
   async logError(key: string, error: AppError, time: number) {
     console.error(`Logging error to InfluxDB: ${key}`);
-    const { lang, text, voice } = decomposeKey(key);
+    const { lang, text, voice } = Key.decompose(key);
     await this.client.write(
       Point.measurement("error")
         .setFloatField("time_taken_ms", time)
@@ -95,7 +90,7 @@ export class InfluxLogger extends Logger {
 
   async logProblem(key: string, problem: AppError, time: number) {
     console.error(`Logging problem to InfluxDB: ${key}`);
-    const { lang, text, voice } = decomposeKey(key);
+    const { lang, text, voice } = Key.decompose(key);
     await this.client.write(
       Point.measurement("problem")
         .setFloatField("time_taken_ms", time)
