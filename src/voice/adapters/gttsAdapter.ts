@@ -1,5 +1,5 @@
 import { VoiceAdapter } from "../VoiceAdapter.ts";
-import * as _ilawy_gtts from "@ilawy/gtts";
+import gtts from "@ilawy/gtts";
 import { isLanguage, languages } from "../../helpers/languages.ts";
 
 export class GttsAdapter extends VoiceAdapter {
@@ -10,7 +10,7 @@ export class GttsAdapter extends VoiceAdapter {
   async speak(langString: string, sentence: string) {
     const lang = isLanguage(langString);
 
-    const buffer: Uint8Array = await _ilawy_gtts.default(sentence, {
+    const buffer: Uint8Array = await gtts(sentence, {
       language: lang,
     });
 
