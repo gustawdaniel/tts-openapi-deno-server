@@ -45,7 +45,7 @@ export default {
           return new Response(null, { status: 204, headers: corsHeaders });
         }
 
-        const text = decodeURI(speakMatch.pathname.groups.sentence);
+        const text = decodeURIComponent(speakMatch.pathname.groups.sentence);
 
         const response = await speakHttpHandler(
           speakMatch.pathname.groups.lang,
