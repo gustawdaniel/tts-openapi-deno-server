@@ -2,7 +2,7 @@ import { Logger } from "../Logger.ts";
 import { AppError } from "../../helpers/AppError.ts";
 import { InfluxDBClient, Point } from "npm:@influxdata/influxdb3-client";
 import { config } from "https://deno.land/x/dotenv/mod.ts";
-
+import assert from "node:assert";
 function decomposeKey(
   key: string,
 ): { lang: string; text: string; voice: string } {
@@ -22,15 +22,29 @@ export class InfluxLogger extends Logger {
 
     const env = config();
 
-    const token = env.INFLUXDB_TOKEN;
-    const host = env.INFLUXDB_HOST ?? 'https://eu-central-1-1.aws.cloud2.influxdata.com';
-    const database = env.INFLUXDB_DATABASE ?? 'tts';
+    if (env.INFLUXDB_TOKEN && !Deno.env.get("INFLUXDB_TOKEN")) {
+      Deno.env.set("INFLUXDB_TOKEN", env.INFLUXDB_TOKEN);
+    }
+    if (env.INFLUXDB_HOST && !Deno.env.get("INFLUXDB_HOST")) {
+      Deno.env.set("INFLUXDB_HOST", env.INFLUXDB_HOST);
+    }
+    if (env.INFLUXDB_DATABASE && !Deno.env.get("INFLUXDB_DATABASE")) {
+      Deno.env.set("INFLUXDB_DATABASE", env.INFLUXDB_DATABASE);
+    }
+
+    const token = Deno.env.get('INFLUXDB_TOKEN');
+    const host = Deno.env.get('INFLUXDB_HOST');
+    const database = Deno.env.get('INFLUXDB_DATABASE');
 
     console.log("InfluxDBClient", {
       host,
       token,
       database,
     });
+
+    assert.ok(token, "INFLUXDB_TOKEN is required");
+    assert.ok(host, "INFLUXDB_HOST is required");
+    assert.ok(database, "INFLUXDB_DATABASE is required");
 
     this.client = new InfluxDBClient({
       host,
