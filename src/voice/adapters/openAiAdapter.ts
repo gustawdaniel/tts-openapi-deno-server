@@ -6,7 +6,7 @@ export class OpenAiAdapter extends VoiceAdapter {
   private readonly openai: OpenAI;
 
   constructor() {
-    super('openai');
+    super("openai");
 
     const env = config();
 

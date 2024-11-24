@@ -8,7 +8,6 @@ const corsHeaders = new Headers({
   "Access-Control-Allow-Headers": "*",
 });
 
-
 // import { serve } from "https://deno.land/std@0.188.0/http/mod.ts";
 
 // serve(async (req: Request):Promise<Response> => {
@@ -18,14 +17,22 @@ const corsHeaders = new Headers({
 function getContentType(pathname: string): string | undefined {
   const ext = pathname.split(".").pop();
   switch (ext) {
-    case "html": return "text/html";
-    case "js": return "application/javascript";
-    case "css": return "text/css";
-    case "png": return "image/png";
-    case "jpg": return "image/jpeg";
-    case "svg": return "image/svg+xml";
-    case "json": return "application/json";
-    default: return undefined;
+    case "html":
+      return "text/html";
+    case "js":
+      return "application/javascript";
+    case "css":
+      return "text/css";
+    case "png":
+      return "image/png";
+    case "jpg":
+      return "image/jpeg";
+    case "svg":
+      return "image/svg+xml";
+    case "json":
+      return "application/json";
+    default:
+      return undefined;
   }
 }
 
@@ -36,16 +43,16 @@ export default {
     try {
       const speakMatch = speakPattern.exec(url);
       if (
-          speakMatch && speakMatch.pathname.groups.lang &&
-          speakMatch.pathname.groups.sentence
+        speakMatch && speakMatch.pathname.groups.lang &&
+        speakMatch.pathname.groups.sentence
       ) {
         if (req.method === "OPTIONS") {
           return new Response(null, { status: 204, headers: corsHeaders });
         }
 
         const response = await speakHttpHandler(
-            speakMatch.pathname.groups.lang,
-            speakMatch.pathname.groups.sentence,
+          speakMatch.pathname.groups.lang,
+          speakMatch.pathname.groups.sentence,
         );
         // Add CORS headers to the existing response
         corsHeaders.forEach((value, key) => response.headers.set(key, value));
@@ -60,7 +67,7 @@ export default {
       });
     } catch {
       const file = Deno.readFileSync(`${Deno.cwd()}/static/index.html`);
-      return new Response(file, {headers: { "content-type": "text/html" } });
+      return new Response(file, { headers: { "content-type": "text/html" } });
     }
   },
 } satisfies Deno.ServeDefaultExport;

@@ -2,7 +2,7 @@ import { validateInput } from "./validators/validateInput.ts";
 import { GttsAdapter } from "./voice/adapters/gttsAdapter.ts";
 import { S3Adapter } from "./storage/adapters/S3Adapter.ts";
 import { speak } from "./speak.ts";
-import {InfluxLogger} from "./logger/adapters/InfluxLogger.ts";
+import { InfluxLogger } from "./logger/adapters/InfluxLogger.ts";
 
 const cache = new S3Adapter();
 const speakers = [new GttsAdapter()];

@@ -40,5 +40,3 @@ jobs:
           project: "danielgustaw-tts"
           entrypoint: "src/main.ts"
           root: ""
-          
-          

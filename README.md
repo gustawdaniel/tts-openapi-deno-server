@@ -53,9 +53,11 @@ Languages
 { text: 'Dutch', value: 'nl' }
 ```
 
-InfluxDB: https://eu-central-1-1.aws.cloud2.influxdata.com/orgs/08384ac0bf08691e/data-explorer?fluxScriptEditor
+InfluxDB:
+https://eu-central-1-1.aws.cloud2.influxdata.com/orgs/08384ac0bf08691e/data-explorer?fluxScriptEditor
 
-Grafana: https://preciselab.grafana.net/d/ee4tkeo0n22gwd/tts?orgId=1&from=now-6h&to=now&timezone=browser
+Grafana:
+https://preciselab.grafana.net/d/ee4tkeo0n22gwd/tts?orgId=1&from=now-6h&to=now&timezone=browser
 
 TTS Dashboard: https://preciselab.grafana.net/goto/ZSFmJT7HR?orgId=1
 
