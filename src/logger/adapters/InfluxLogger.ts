@@ -23,10 +23,14 @@ export class InfluxLogger extends Logger {
     const env = config();
 
     const token = env.INFLUXDB_TOKEN;
-    const host = env.INFLUXDB_HOST;
-    const database = env.INFLUXDB_DATABASE;
+    const host = env.INFLUXDB_HOST ?? 'https://eu-central-1-1.aws.cloud2.influxdata.com';
+    const database = env.INFLUXDB_DATABASE ?? 'tts';
 
-    console.log("token", token);
+    console.log("InfluxDBClient", {
+      host,
+      token,
+      database,
+    });
 
     this.client = new InfluxDBClient({
       host,
