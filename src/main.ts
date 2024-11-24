@@ -8,12 +8,6 @@ const corsHeaders = new Headers({
   "Access-Control-Allow-Headers": "*",
 });
 
-// import { serve } from "https://deno.land/std@0.188.0/http/mod.ts";
-
-// serve(async (req: Request):Promise<Response> => {
-//
-// });
-
 function getContentType(pathname: string): string | undefined {
   const ext = pathname.split(".").pop();
   switch (ext) {

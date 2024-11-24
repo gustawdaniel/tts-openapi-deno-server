@@ -36,12 +36,6 @@ export class InfluxLogger extends Logger {
     const host = Deno.env.get('INFLUXDB_HOST');
     const database = Deno.env.get('INFLUXDB_DATABASE');
 
-    console.log("InfluxDBClient", {
-      host,
-      token,
-      database,
-    });
-
     assert.ok(token, "INFLUXDB_TOKEN is required");
     assert.ok(host, "INFLUXDB_HOST is required");
     assert.ok(database, "INFLUXDB_DATABASE is required");
@@ -71,7 +65,7 @@ export class InfluxLogger extends Logger {
   async logCacheHit(key: string, time: number) {
     console.log(`Logging cache hit to InfluxDB: ${key}`);
     const { lang, text, voice } = decomposeKey(key);
-    const res = await this.client.write(
+    await this.client.write(
       Point.measurement("action")
         .setTag("type", "cache_hit")
         .setTag("lang", lang)
@@ -81,7 +75,6 @@ export class InfluxLogger extends Logger {
         .setField("key", key)
         .setTimestamp(new Date()),
     );
-    console.log("saved influx", res);
   }
 
   async logError(key: string, error: AppError, time: number) {
