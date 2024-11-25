@@ -1,4 +1,5 @@
 import { speakHttpHandler } from "./speakHttpHandler.ts";
+import {Language, languages} from "./helpers/languages.ts";
 
 const speakPattern = new URLPattern({ pathname: "/speak/:lang/:sentence" });
 
@@ -29,6 +30,37 @@ function getContentType(pathname: string): string | undefined {
       return undefined;
   }
 }
+
+function getTriangularRandom(min: number, max: number, mode: number): number {
+  const u = Math.random(); // Generate a uniform random number between 0 and 1
+  if (u < (mode - min) / (max - min)) {
+    return min + Math.sqrt(u * (max - min) * (mode - min));
+  } else {
+    return max - Math.sqrt((1 - u) * (max - min) * (max - mode));
+  }
+}
+
+let timeout = 1000 * 1;
+let randomNumber = 23;
+let randomLang: Language = 'en';
+
+function callSpeakRandomNumber() {
+  setTimeout(async () => {
+    randomNumber = Math.round(getTriangularRandom(-100,100, 0));
+    timeout = 100 * Math.round(getTriangularRandom(60, 300, 120));
+    randomLang = languages[Math.floor(Math.random() * languages.length)].value;
+    console.log(timeout, randomLang, randomNumber);
+
+    // await speakHttpHandler("en", `Random number is ${randomNumber}`);
+    callSpeakRandomNumber();
+  }, timeout);
+}
+
+callSpeakRandomNumber();
+
+setTimeout(() => {
+  timeout = 1000 * 60 * 60;
+}, 1000 * 60 * 60);
 
 export default {
   async fetch(req) {
