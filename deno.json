@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno serve --allow-env --allow-net --watch -R src/main.ts"
+    "dev": "deno serve --allow-env --allow-net --watch -R --unstable-cron src/main.ts"
   },
   "imports": {
     "@ilawy/gtts": "jsr:@ilawy/gtts@1",
