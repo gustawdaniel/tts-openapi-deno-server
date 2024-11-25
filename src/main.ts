@@ -47,15 +47,15 @@ let randomLang: Language = 'en';
 function callSpeakRandomNumber() {
   setTimeout(async () => {
     randomNumber = Math.round(getTriangularRandom(-100,100, 0));
-    timeout = 1000 * Math.round(getTriangularRandom(60, 300, 120));
+    timeout = 10 * Math.round(getTriangularRandom(60, 300, 120));
     randomLang = languages[Math.floor(Math.random() * languages.length)].value;
     const text = randomNumber < 0 ? `- ${Math.abs(randomNumber)}` : `+ ${randomNumber}`;
 
     console.log('cron', timeout, randomLang, randomNumber, text);
-    await speakHttpHandler(
-        randomLang,
-        text,
-    );
+    // await speakHttpHandler(
+    //     randomLang,
+    //     text,
+    // );
 
     // await speakHttpHandler("en", `Random number is ${randomNumber}`);
     callSpeakRandomNumber();
