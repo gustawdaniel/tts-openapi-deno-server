@@ -568,6 +568,14 @@
     "https://deno.land/x/s3@0.5.0/src/error.ts": "a7857ca64eedbaf5c4daad5e83fdef5c4acd61534bffdab784b4e17e008e6aae",
     "https://deno.land/x/s3@0.5.0/src/request.ts": "c469c447d65e0508a94c8fa6d68ab4c54b23efbdacef58dd8651975721ecf8a6",
     "https://deno.land/x/s3@0.5.0/src/types.ts": "817968920f69e2768dcaeec59f301ce791715544bac2561d59e3e9ca81ec0bba",
+    "https://deno.land/x/timers@v0.2.3/mod.ts": "97d503fc84c9db32697e65d04fca2bcdea0034c5159a0e4bf3b7df99ac7716e9",
+    "https://deno.land/x/timers@v0.2.3/src/After.ts": "05138b7fd70e75670fc6b1b5d2fd54e072356c2752e39a685c7617967c0958b8",
+    "https://deno.land/x/timers@v0.2.3/src/Every.ts": "babd8838d8e8ad755d9b440cef3d6f4347c582b2c4706c24e5fd560bfcedb6bc",
+    "https://deno.land/x/timers@v0.2.3/src/Interval.ts": "baa6507d665eb6b20e2fef4efaf02adfb1102011c92e51b855abe0f9d4178edd",
+    "https://deno.land/x/timers@v0.2.3/src/Timeout.ts": "119d9bf6befe7d1054354ce3a55e8b2414620d49e3bb8b487951226b69a928f5",
+    "https://deno.land/x/timers@v0.2.3/src/Timer.ts": "d184cc940ca427752b7e87374fbeb95e1de3c63537db2868b96731c74dcedaeb",
+    "https://deno.land/x/timers@v0.2.3/src/pTimeout.ts": "f0b102492ab9168fc43ba931dc99650d68f3fb35478179f8028d09c55529681d",
+    "https://deno.land/x/timers@v0.2.3/src/util.ts": "a14e1215247e96af9b48fb6560973b927f316a66add539d3c07cc01626ab7b4f",
     "https://raw.githubusercontent.com/nekobato/deno-xml-parser/0bc4c2bd2f5fad36d274279978ca57eec57c680c/index.ts": "05d093028c005706e37b46bfe2bb7e2488f42fdc74d2196ac818902336927c01"
   },
   "workspace": {

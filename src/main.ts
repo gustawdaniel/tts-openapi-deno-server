@@ -31,6 +31,10 @@ function getContentType(pathname: string): string | undefined {
   }
 }
 
+import {
+  setTimeout,
+} from "https://deno.land/x/timers@v0.2.3/mod.ts";
+
 function getTriangularRandom(min: number, max: number, mode: number): number {
   const u = Math.random(); // Generate a uniform random number between 0 and 1
   if (u < (mode - min) / (max - min)) {
