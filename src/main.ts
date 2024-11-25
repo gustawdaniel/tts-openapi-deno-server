@@ -46,7 +46,7 @@ Deno.cron("read number", { minute: { every: 1 } }, async () => {
     timeout++;
     const rnd = Math.random();
 
-    if (rnd < 0.5) {
+    if (rnd < 0.75) {
         return;
     }
 
