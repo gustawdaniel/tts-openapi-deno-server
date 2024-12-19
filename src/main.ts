@@ -50,7 +50,7 @@ Deno.cron("read number", { minute: { every: 1 } }, async () => {
         return;
     }
 
-    const randomNumber: number = Math.round(getTriangularRandom(-500, 500, 0));
+    const randomNumber: number = Math.round(getTriangularRandom(-1000, 1000, 0));
     const randomLang: Language  = [
         ...languages.map(l => l.value),
         ...new Array(2).fill('pl'),
