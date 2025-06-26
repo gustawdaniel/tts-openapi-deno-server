@@ -31,41 +31,41 @@ function getContentType(pathname: string): string | undefined {
     }
 }
 
-function getTriangularRandom(min: number, max: number, mode: number): number {
-    const u = Math.random(); // Generate a uniform random number between 0 and 1
-    if (u < (mode - min) / (max - min)) {
-        return min + Math.sqrt(u * (max - min) * (mode - min));
-    } else {
-        return max - Math.sqrt((1 - u) * (max - min) * (max - mode));
-    }
-}
+// function getTriangularRandom(min: number, max: number, mode: number): number {
+//     const u = Math.random(); // Generate a uniform random number between 0 and 1
+//     if (u < (mode - min) / (max - min)) {
+//         return min + Math.sqrt(u * (max - min) * (mode - min));
+//     } else {
+//         return max - Math.sqrt((1 - u) * (max - min) * (max - mode));
+//     }
+// }
+//
+// let timeout = 0;
 
-let timeout = 0;
-
-Deno.cron("read number", { minute: { every: 1 } }, async () => {
-    timeout++;
-    const rnd = Math.random();
-
-    if (rnd < 0.5) { // 30 ticks per hour
-        return;
-    }
-
-    const randomNumber: number = Math.round(getTriangularRandom(-500, 500, 0));
-    const randomLang: Language  = [
-        ...languages.map(l => l.value),
-        ...new Array(2).fill('pl'),
-    ][Math.floor(Math.random() * languages.length)];
-
-    const text = randomNumber < 0
-        ? `- ${Math.abs(randomNumber)}`
-        : `+ ${randomNumber}`;
-
-    console.log("cron", timeout, randomLang, randomNumber, text, rnd);
-    await speakHttpHandler(
-        randomLang,
-        text,
-    );
-});
+// Deno.cron("read number", { minute: { every: 1 } }, async () => {
+//     timeout++;
+//     const rnd = Math.random();
+//
+//     if (rnd < 0.5) { // 30 ticks per hour
+//         return;
+//     }
+//
+//     const randomNumber: number = Math.round(getTriangularRandom(-500, 500, 0));
+//     const randomLang: Language  = [
+//         ...languages.map(l => l.value),
+//         ...new Array(2).fill('pl'),
+//     ][Math.floor(Math.random() * languages.length)];
+//
+//     const text = randomNumber < 0
+//         ? `- ${Math.abs(randomNumber)}`
+//         : `+ ${randomNumber}`;
+//
+//     console.log("cron", timeout, randomLang, randomNumber, text, rnd);
+//     await speakHttpHandler(
+//         randomLang,
+//         text,
+//     );
+// });
 
 export default {
     async fetch(req) {
