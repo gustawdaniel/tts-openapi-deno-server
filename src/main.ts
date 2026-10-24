@@ -1,6 +1,16 @@
 import { speakHttpHandler } from "./speakHttpHandler.ts";
 import { Language, languages } from "./helpers/languages.ts";
 import { detectLanguageWithLLM } from "./helpers/detectLanguage.ts";
+import * as Sentry from "npm:@sentry/deno";
+
+const sentryDsn = Deno.env.get("SENTRY_DSN") || "https://cc3d7a56d04b41aaac3727f73912e752@o259046.ingest.sentry.io/4503915104567296";
+if (sentryDsn) {
+    Sentry.init({
+        dsn: sentryDsn,
+        environment: Deno.env.get("ENVIRONMENT") || "production",
+        tracesSampleRate: 0.2,
+    });
+}
 
 const speakPattern = new URLPattern({ pathname: "/speak/:lang/:sentence" });
 const detectPattern = new URLPattern({ pathname: "/detect/:sentence" });

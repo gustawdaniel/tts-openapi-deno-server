@@ -4,6 +4,7 @@ import { S3Adapter } from "./storage/adapters/S3Adapter.ts";
 import { speak } from "./speak.ts";
 import { InfluxLogger } from "./logger/adapters/InfluxLogger.ts";
 import { detectLanguageWithLLM } from "./helpers/detectLanguage.ts";
+import * as Sentry from "npm:@sentry/deno";
 
 const cache = new S3Adapter();
 const speakers = [new GttsAdapter()];
@@ -27,6 +28,10 @@ export async function speakHttpHandler(
     return await speak(lang, text, cache, speakers, logger);
   } catch (e) {
     console.error(e);
+    Sentry.captureException(e, {
+      tags: { module: "tts", lang },
+      extra: { text },
+    });
     return new Response(null, { status: 500 });
   }
 }
