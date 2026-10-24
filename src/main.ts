@@ -1,7 +1,9 @@
 import { speakHttpHandler } from "./speakHttpHandler.ts";
 import { Language, languages } from "./helpers/languages.ts";
+import { detectLanguageWithLLM } from "./helpers/detectLanguage.ts";
 
 const speakPattern = new URLPattern({ pathname: "/speak/:lang/:sentence" });
+const detectPattern = new URLPattern({ pathname: "/detect/:sentence" });
 
 const corsHeaders = new Headers({
     "Access-Control-Allow-Origin": "*",
@@ -99,6 +101,30 @@ export default {
                     response.headers.set(key, value)
                 );
                 return response;
+            }
+
+            const detectMatch = detectPattern.exec(url);
+            if (detectMatch && detectMatch.pathname.groups.sentence) {
+                if (req.method === "OPTIONS") {
+                    return new Response(null, { status: 204, headers: corsHeaders });
+                }
+                const text = decodeURIComponent(detectMatch.pathname.groups.sentence);
+                const lang = await detectLanguageWithLLM(text);
+                const res = new Response(JSON.stringify({ lang }), {
+                    headers: { "content-type": "application/json" },
+                });
+                corsHeaders.forEach((v, k) => res.headers.set(k, v));
+                return res;
+            }
+
+            if (url.pathname === "/detect" && req.method === "POST") {
+                const body = await req.json();
+                const lang = await detectLanguageWithLLM(body.text || "");
+                const res = new Response(JSON.stringify({ lang }), {
+                    headers: { "content-type": "application/json" },
+                });
+                corsHeaders.forEach((v, k) => res.headers.set(k, v));
+                return res;
             }
 
             const filePath = `${Deno.cwd()}/static${url.pathname}`;

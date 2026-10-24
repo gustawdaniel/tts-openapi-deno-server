@@ -3,6 +3,7 @@ import { GttsAdapter } from "./voice/adapters/gttsAdapter.ts";
 import { S3Adapter } from "./storage/adapters/S3Adapter.ts";
 import { speak } from "./speak.ts";
 import { InfluxLogger } from "./logger/adapters/InfluxLogger.ts";
+import { detectLanguageWithLLM } from "./helpers/detectLanguage.ts";
 
 const cache = new S3Adapter();
 const speakers = [new GttsAdapter()];
@@ -16,6 +17,10 @@ export async function speakHttpHandler(
 
   if (validationError) {
     return new Response(validationError, { status: 400 });
+  }
+
+  if (lang === "auto" || !lang) {
+    lang = await detectLanguageWithLLM(text);
   }
 
   try {
