@@ -7,13 +7,7 @@ export function validateInput(lang: string, text: string): string | undefined {
     }.`;
   }
 
-  if (text.length > 7) {
-    return `Text too long, max 5 characters.`;
-  }
-
-  const allowedText = /^[0-9+\- ]*$/;
-
-  if (!allowedText.test(text)) {
-    return `Text must contain only numbers, +, - or spaces.`;
+  if (text.length > 1000) {
+    return `Text too long, max 1000 characters.`;
   }
 }

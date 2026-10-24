@@ -62,3 +62,9 @@ https://preciselab.grafana.net/d/ee4tkeo0n22gwd/tts?orgId=1&from=now-6h&to=now&t
 TTS Dashboard: https://preciselab.grafana.net/goto/ZSFmJT7HR?orgId=1
 
 ![](https://preciselab.grafana.net/render/d-solo/ee4tkeo0n22gwd?orgId=1&from=2024-11-23T08:55:16.319Z&to=2024-11-23T14:55:16.319Z&timezone=browser&panelId=panel-1&__feature.dashboardSceneSolo&width=1000&height=500&tz=Asia%2FTbilisi)
+
+Count files in cache:
+
+```bash
+s3cmd ls --recursive s3://preciselab/sowa/voice | wc -l
+```
