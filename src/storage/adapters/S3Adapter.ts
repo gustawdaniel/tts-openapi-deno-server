@@ -68,7 +68,7 @@ export class S3Adapter extends StorageAdapter {
     if (exists) {
       return new Response(null, {
         status: 302,
-        headers: { "Location": `${this.base}/${key}` },
+        headers: { "Location": `${this.base}/${encodeURI(key)}` },
       });
     }
   }
@@ -83,7 +83,7 @@ export class S3Adapter extends StorageAdapter {
 
     return new Response(null, {
       status: 302,
-      headers: { "Location": `${this.base}/${key}` },
+      headers: { "Location": `${this.base}/${encodeURI(key)}` },
     });
   }
 
